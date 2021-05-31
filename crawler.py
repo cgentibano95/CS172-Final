@@ -31,6 +31,7 @@ def crawl(url):
             crawl(url + link)
 
 crawl("https://www.ohlone.edu/")
+# crawl("https://www1.cs.ucr.edu/")
 print("done scraping \n\n")
 for l in all_links:
     print(l)
