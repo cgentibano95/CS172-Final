@@ -11,24 +11,16 @@ const columns = [
 var rows = [];
 
 const DataDisplay = (props) => {
-  if (props.data === undefined) {
-    return (
-      <div>
-        <p> no results! </p>
-      </div>
-    );
-  } else {
-    return (
-      <div style={{ height: 500, widht: "100%" }}>
-        <DataGrid
-          rows={props.data}
-          columns={columns}
-          pageSize={7}
-          className={props.dataGrid}
-        />
-      </div>
-    );
-  }
+  return (
+    <div style={{ height: 500, widht: "100%" }}>
+      <DataGrid
+        rows={props.data}
+        columns={columns}
+        pageSize={7}
+        className={props.dataGrid}
+      />
+    </div>
+  );
 };
 
 export default DataDisplay;
