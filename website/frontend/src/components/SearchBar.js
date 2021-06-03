@@ -1,9 +1,14 @@
 import React, { Component } from "react";
+import axios from "axios";
 
 import withStyles from "@material-ui/core/styles/withStyles";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+
+const axiosConfig = {
+  baseURL: "http://localhost:8080/",
+};
 
 const useStyles = (theme) => ({
   textField: {
@@ -22,7 +27,6 @@ class SearchBar extends Component {
 
     this.state = {
       searchQuery: "",
-      sort: "recent",
       errors: {},
     };
   }
@@ -35,8 +39,21 @@ class SearchBar extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    const userQuery = { ...this.state.searchQuery.split(", ") };
-    console.log(userQuery);
+    let tokens = this.state.searchQuery.split(", ");
+    var userData = "{";
+
+    for (let i = 0; i < tokens.length; i++) {
+      let split = tokens[i].split(":");
+      userData += `"${split[0]}":"${split[1]}",\n`;
+    }
+
+    userData = userData.substring(0, userData.length - 2);
+    userData += "\n}";
+    let userDataJson = JSON.parse(userData);
+    axios
+      .post("/search", userDataJson, axiosConfig)
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
   };
 
   render() {

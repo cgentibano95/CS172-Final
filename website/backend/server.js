@@ -1,6 +1,7 @@
 // import dependencies
 const config = require("config");
 const express = require("express");
+const cors = require("cors");
 const { Client } = require("@elastic/elasticsearch");
 
 const client = new Client({
@@ -16,6 +17,43 @@ const client = new Client({
 const indexName = "test-index";
 const app = express();
 const port = 8080;
+app.use(express.json());
+app.use(cors());
+
+app.post("/search", function (req, res) {
+  console.log(req.body.text);
+  const query = {
+    title: req.body.title,
+    url: req.body.url,
+    hrefs: req.body.hrefs,
+    imgs: req.body.imgs,
+    text: req.body.text,
+  };
+  console.log(query);
+  client
+    .search({
+      index: indexName,
+      body: {
+        query: {
+          match: {
+            title: query.title,
+          },
+        },
+      },
+    })
+    .then((data) => {
+      let relevantData = [];
+      let hits = data.body.hits.hits;
+      hits.forEach((hit) => {
+        const foundData = {};
+        console.log(hit);
+        // relevantData.push(foundData);
+      });
+      console.log(relevantData);
+      return res.status(200).json(relevantData);
+    })
+    .catch((err) => console.log(err));
+});
 
 app.post("/example", function (req, res) {
   //   client
