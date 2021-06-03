@@ -21,7 +21,6 @@ app.use(express.json());
 app.use(cors());
 
 app.post("/search", function (req, res) {
-  console.log(req.body.text);
   const query = {
     title: req.body.title,
     url: req.body.url,
@@ -29,7 +28,7 @@ app.post("/search", function (req, res) {
     imgs: req.body.imgs,
     text: req.body.text,
   };
-  console.log(query);
+
   client
     .search({
       index: indexName,
@@ -45,50 +44,25 @@ app.post("/search", function (req, res) {
       let relevantData = [];
       let hits = data.body.hits.hits;
       hits.forEach((hit) => {
-        const foundData = {};
         console.log(hit);
-        // relevantData.push(foundData);
+        const foundData = {
+          id: hit._id,
+          title: hit._source.title,
+          href: hit._source.href,
+          text: hit._source.text,
+          score: hit._score,
+          timestamp: hit._source.timestamp,
+        };
+
+        relevantData.push(foundData);
       });
-      console.log(relevantData);
-      return res.status(200).json(relevantData);
+
+      return res.json({ relevantData });
     })
     .catch((err) => console.log(err));
 });
 
 app.post("/example", function (req, res) {
-  //   client
-  //     .index({
-  //       index: "game-of-thrones",
-  //       body: {
-  //         character: "Ned Stark",
-  //         quote: "Winter is coming.",
-  //       },
-  //     })
-  //     .then((data) => res.json(data))
-  //     .catch((err) => console.log(err));
-
-  //   client
-  //     .index({
-  //       index: "game-of-thrones",
-  //       body: {
-  //         character: "Daenerys Targaryen",
-  //         quote: "I am the blood of the dragon.",
-  //       },
-  //     })
-  //     .then((data) => res.json(data))
-  //     .catch((err) => console.log(err));
-
-  //   client
-  //     .index({
-  //       index: "game-of-thrones",
-  //       body: {
-  //         character: "Tyrion Lannister",
-  //         quote: "A mind needs books like a sword needs a whetstone.",
-  //       },
-  //     })
-  //     .then((data) => res.json(data))
-  //     .catch((err) => console.log(err));
-
   client
     .search({
       index: "game-of-thrones",
@@ -109,10 +83,8 @@ app.post("/example", function (req, res) {
           quote: hit._source.quote,
           score: hit._score,
         };
-        console.log(hit._source.character);
         relevantData.push(foundData);
       });
-      console.log(relevantData);
       return res.status(200).json(relevantData);
     })
     .catch((err) => console.log(err));

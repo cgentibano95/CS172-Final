@@ -1,6 +1,10 @@
 import React, { Component } from "react";
 import axios from "axios";
 
+// Components
+import DataDisplay from "./DataDisplay";
+
+// Material UI
 import withStyles from "@material-ui/core/styles/withStyles";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
@@ -19,6 +23,9 @@ const useStyles = (theme) => ({
     marginTop: "20px",
     position: "relative",
   },
+  dataGrid: {
+    backgroundColor: "white",
+  },
 });
 
 class SearchBar extends Component {
@@ -27,6 +34,8 @@ class SearchBar extends Component {
 
     this.state = {
       searchQuery: "",
+      queryResults: undefined,
+      loading: false,
       errors: {},
     };
   }
@@ -49,18 +58,27 @@ class SearchBar extends Component {
 
     userData = userData.substring(0, userData.length - 2);
     userData += "\n}";
+
     let userDataJson = JSON.parse(userData);
+
     axios
       .post("/search", userDataJson, axiosConfig)
-      .then((res) => console.log(res))
+      .then((res) => {
+        const results = res.data.relevantData;
+        console.log(results);
+        this.setState({
+          queryResults: results,
+        });
+      })
       .catch((err) => console.log(err));
   };
 
   render() {
     const { classes } = this.props;
+
     return (
-      <Grid container justify="center" alignItems="center">
-        <Grid item>
+      <Grid container justify="center" alignItems="center" spacing={4}>
+        <Grid item xs={8}>
           <form onSubmit={this.handleSubmit}>
             <TextField
               id="searchQuery"
@@ -78,6 +96,14 @@ class SearchBar extends Component {
             </Button>
           </form>
         </Grid>
+        {this.state.queryResults && (
+          <Grid item xs={10} className={classes.dataGrid}>
+            <DataDisplay
+              data={this.state.queryResults}
+              dataGridClass={classes.dataGrid}
+            />
+          </Grid>
+        )}
       </Grid>
     );
   }
