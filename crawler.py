@@ -53,7 +53,7 @@ def crawl(url):
             elif tag == 'img':
                 elastic_doc.setdefault(tag, []).append(result['src'])
             else:
-                elastic_doc.setdefault(tag, []).append(
+                elastic_doc.setdefault('text', []).append(
                     result.get_text().strip())
 
     send_to_elastic(elastic_doc)
