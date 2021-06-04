@@ -1,5 +1,4 @@
 import requests
-from xxhash import xxh32
 from bs4 import BeautifulSoup
 from elasticsearch import Elasticsearch
 from datetime import datetime
