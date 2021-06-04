@@ -36,6 +36,11 @@ app.post("/search", function (req, res) {
         query: {
           match: {
             title: query.title,
+            text: query.text,
+            url: query.url,
+            hrefs: query.hrefs,
+            imgs: query.imgs,
+            text: query.text,
           },
         },
       },
@@ -47,6 +52,7 @@ app.post("/search", function (req, res) {
         console.log(hit);
         const foundData = {
           id: hit._id,
+          url: hit._source.url,
           title: hit._source.title,
           href: hit._source.href,
           text: hit._source.text,
@@ -57,6 +63,7 @@ app.post("/search", function (req, res) {
         relevantData.push(foundData);
       });
 
+      console.log(relevantData);
       return res.json({ relevantData });
     })
     .catch((err) => console.log(err));
