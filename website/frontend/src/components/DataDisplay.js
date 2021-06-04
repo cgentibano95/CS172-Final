@@ -4,8 +4,8 @@ import React from "react";
 import { DataGrid } from "@material-ui/data-grid";
 
 const columns = [
-  { field: "title", headerName: "Title", width: 150 },
-  { field: "score", headerName: "Score", width: 150 },
+  { field: "score", headerName: "Score", width: 120 },
+  { field: "title", headerName: "Title", width: 400 },
 ];
 
 var rows = [];
