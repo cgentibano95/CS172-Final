@@ -16,13 +16,9 @@ def crawl(url):
     elastic_doc = {
         "url": url,
         "title": "",
-        "hrefs": [],
         "img": [],
-        "p": [],
-        "h1": [],
-        "h2": [],
-        "h3": [],
-        "h4": [],
+        "href": [],
+        "text": [],
         "timestamp": datetime.now()
     }
 
@@ -56,6 +52,7 @@ def crawl(url):
                 elastic_doc.setdefault('text', []).append(
                     result.get_text().strip())
 
+    elastic_doc.setdefault('href', []).extend(links)
     send_to_elastic(elastic_doc)
 
     for link in links:
@@ -67,11 +64,8 @@ def crawl(url):
 
 def send_to_elastic(document):
     global es
-    x = xxh32(document['url'])
-    docId = x.intdigest()
-    if not es.exists(index='test-index', id=docId):
-        res = es.create(index="test-index", id=docId, body=document)
-        print(res['result'])
+    res = es.create(index="test-index", body=document)
+    print(res['result'])
 
 
 with open('config/default.txt', 'r') as f:
