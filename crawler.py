@@ -73,12 +73,6 @@ def send_to_elastic(document):
         res = es.create(index="test-index", id=docId, body=document)
         print(res['result'])
 
-    # Delete the document after creation
-    res = es.delete(index="test-index", id=docId)
-    print("-"*20)
-    print("Deleting")
-    print(res)
-
 
 with open('config/default.txt', 'r') as f:
     for line in f:

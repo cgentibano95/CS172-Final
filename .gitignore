@@ -130,3 +130,5 @@ dmypy.json
 
 .vscode/
 config/*
+website/config/*
+website/backend/node_modules/*
