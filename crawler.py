@@ -15,15 +15,12 @@ def crawl(url, links):
     
     for a in s.find_all('a', href=True):
         if a.get('href'):
-            print(a.get('href'))
             if a.get('href')[0] == '/':
                 links.append(a.get('href'))
                 if a.get('href') not in all_links:
                     all_links.append(url + a.get('href')[1:])
             elif a.get('href')[0].lower() == "h":
                 # this is to ignore m to ignore "mailto" and menus
-                # basically any links that aren't additional levels from seed are here.
-                #print(a.get('href'))
                 links.append(a.get('href'))
                 if a.get('href') not in  all_links:
                     all_links.append(a.get('href'))
