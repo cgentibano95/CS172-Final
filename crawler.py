@@ -58,7 +58,7 @@ def readWriteFiles(outFile, num_pgs):
 if __name__ == "__main__":
     outFile = "results.txt"
     num_pgs = 30
-    readWriteFiles(outFile, 7)
+    readWriteFiles(outFile, num_pgs)
     print("done scraping \n\n")
     print("pages crawled: " + str(PGS_CRAWLED))
     print("results found at: " + outFile)
