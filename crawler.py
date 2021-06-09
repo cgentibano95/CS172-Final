@@ -42,7 +42,6 @@ def crawl(url):
                     LINK_QUEUE.append(a.get('href').strip())
                 
 '''
-
 Reads from seed.txt, calls crawl for each url, and writes all links to results.txt
 '''
 def readWriteFiles(outFile, num_pgs):
@@ -64,15 +63,11 @@ def readWriteFiles(outFile, num_pgs):
         f.write(l + " \n")
     f.close()
 
-    f = open("pgs_crawled.txt", "a")
-    for l in PGS_CRAWLED:
-        f.write(l + " \n")
-    f.close()
 
 
 if __name__ == "__main__":
     outFile = "results.txt"
-    num_pgs = 50
+    num_pgs = 7200
     readWriteFiles(outFile, num_pgs)
     print("\n\ndone scraping")
     print("results found at: " + outFile)
