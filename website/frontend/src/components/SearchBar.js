@@ -68,6 +68,7 @@ class SearchBar extends Component {
         console.log(results);
         this.setState({
           queryResults: results,
+          searchQuery: "",
         });
       })
       .catch((err) => console.log(err));
@@ -86,6 +87,7 @@ class SearchBar extends Component {
               type="searchQuery"
               label="Search Elastic"
               placeholder="text:computer science, url:ucr, title:Riverside"
+              value={this.state.searchQuery}
               onChange={this.handleChange}
               fullWidth
               className={classes.textField}
