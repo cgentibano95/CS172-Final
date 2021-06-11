@@ -45,12 +45,6 @@ There are various keys that users can take advantage of:
 - `text`: refers to any text that is found in the body of a
   webpage with tags: h1, h2, h3, h4, and p.
 
-- `imgs`: refers to the url of images that were found in the
-  body of a crawled site.
-
-- `hrefs`: refers to any links that were found in the body of a
-  crawled site.
-
 An example query may be:
 
 `title:ucr, text:computer science`
@@ -58,3 +52,10 @@ An example query may be:
 or
 
 `url:ucr, text:the best`
+
+#### Issues
+
+- When using a `url` search, if `www` is not included in the
+  url, it is possible that a match will not be found even if the
+  document exists.
+-

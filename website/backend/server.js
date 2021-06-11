@@ -25,7 +25,6 @@ app.post("/search", function (req, res) {
     title: req.body.title,
     url: req.body.url,
     hrefs: req.body.hrefs,
-    imgs: req.body.imgs,
     text: req.body.text,
   };
 
@@ -38,14 +37,14 @@ app.post("/search", function (req, res) {
             title: query.title,
             text: query.text,
             url: query.url,
-            hrefs: query.hrefs,
-            imgs: query.imgs,
+            href: query.hrefs,
             text: query.text,
           },
         },
       },
     })
     .then((data) => {
+      console.log(data);
       let relevantData = [];
       let hits = data.body.hits.hits;
       hits.forEach((hit) => {

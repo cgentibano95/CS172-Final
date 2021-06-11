@@ -1,26 +1,27 @@
 import requests
+import random
+import sys
 from time import sleep
 from bs4 import BeautifulSoup
 from elasticsearch import Elasticsearch
 from datetime import datetime
 
+all_bytes = 0
 all_links = []
 PGS_CRAWLED = []
 LINK_QUEUE = []
 
-'''
-crawls a provided url, grabs all href links and stores into all_links
-'''
-
 
 def crawl(url):
+    '''
+    crawls a provided url, grabs all href links and stores into all_links
+    '''
     global PGS_CRAWLED
     PGS_CRAWLED.append(url)
 
     elastic_doc = {
         "url": url,
         "title": "",
-        "img": [],
         "href": [],
         "text": [],
         "timestamp": datetime.now()
@@ -57,13 +58,11 @@ def crawl(url):
             elastic_doc.setdefault('href', []).append(a.get('href').strip())
         # Search for all tags with content
 
-    tags = ['h1', 'h2', 'h3', 'h4', 'p', 'img', 'title']
+    tags = ['h1', 'h2', 'h3', 'h4', 'p', 'title']
     for tag in tags:
         for result in s.find_all(name=tag):
             if tag == 'title':
                 elastic_doc[tag] = result.get_text()
-            elif tag == 'img':
-                elastic_doc.setdefault(tag, []).append(result['src'])
             else:
                 elastic_doc.setdefault('text', []).append(
                     result.get_text().strip())
@@ -72,22 +71,25 @@ def crawl(url):
 
 
 def send_to_elastic(document):
+    global all_bytes
+
     with open('config/default.txt', 'r') as f:
         for line in f:
             credentials = line.split(' ')
 
     es = Elasticsearch(cloud_id=credentials[2], http_auth=(
         credentials[0], credentials[1]))
-    res = es.create(index="test-index", body=document)
+    res = es.create(index="test-index", body=document,
+                    id=random.randint(0, 100000))
     print(res['result'])
-
-
-'''
-Reads from seed.txt, calls crawl for each url, and writes all links to results.txt
-'''
+    all_bytes += sys.getsizeof(document)
+    print(all_bytes)
 
 
 def readWriteFiles(outFile, num_pgs):
+    '''
+    Reads from seed.txt, calls crawl for each url, and writes all links to results.txt
+    '''
     f = open('seed.txt', 'r')
     lines = f.readlines()
     for line in lines:

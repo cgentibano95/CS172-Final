@@ -1,5 +1,4 @@
 http://www.fullerton.edu/
-https://uci.edu/
 https://ucsd.edu/
 https://www.ucla.edu/
 https://www.ucdavis.edu/
@@ -24,3 +23,4 @@ https://wsu.edu/
 https://www.washington.edu/
 https://spu.edu/
 https://www.uoregon.edu/
+https://uci.edu/
