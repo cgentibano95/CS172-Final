@@ -7,7 +7,6 @@ const columns = [
   { field: "score", headerName: "Score", width: 120 },
   { field: "title", headerName: "Title", width: 400 },
   { field: "url", headerName: "URL", width: 400 },
-  { field: "timestamp", headerName: "Timestamp", width: 200 },
   { field: "text", headerName: "Text", width: 600 },
 ];
 
@@ -17,7 +16,7 @@ const DataDisplay = (props) => {
       <DataGrid
         rows={props.data}
         columns={columns}
-        pageSize={7}
+        pageSize={10}
         className={props.dataGrid}
       />
     </div>
