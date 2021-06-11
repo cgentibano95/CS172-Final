@@ -1,5 +1,16 @@
 # Web Crawler
 
+## Crawler.py
+
+For the crawler.py, we make sure to follow as advised during lecture:
+
+1. Crawls through every url provided in seed.txt
+2. loops the amount of pages provided for the function
+3. dequeue's a URL from the seed
+4. if we run into any issues, we use a try/except in case we aren't allowed to crawl
+5. Grab the html, but if it is an href we do extra checking to match the url format in our queue.
+6. For each url that hasn't been visited from the seed, we add to queue.
+
 ## Website
 
 The website was built using NodeJS, React, Express, and the ElasticSearch JS module.
