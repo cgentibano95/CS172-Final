@@ -11,6 +11,10 @@ For the crawler.py, we make sure to follow as advised during lecture:
 5. Grab the html, but if it is an href we do extra checking to match the url format in our queue.
 6. For each url that hasn't been visited from the seed, we add to queue.
 
+Once the site has been crawled, we then package all of the text (h1, h2, h3, h4, title, and p tags) to a JSON formated document which is then passed to Elastic.
+
+To interact with Elastic we used the ElasticSearch module and the Cloud-Id for authentication.
+
 ## Website
 
 The website was built using NodeJS, React, Express, and the ElasticSearch JS module.
@@ -69,4 +73,3 @@ or
 - When using a `url` search, if `www` is not included in the
   url, it is possible that a match will not be found even if the
   document exists.
--
